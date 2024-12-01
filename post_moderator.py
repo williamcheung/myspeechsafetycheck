@@ -47,10 +47,17 @@ def moderate_post(post: str, category_to_check: str=None) -> str|Generator[str, 
                 pass
 
     summary = ''
-    if alerts:
+    if len(alerts) > 1:
         alerts = '\n'.join(alerts).strip()
-        summary = f"Safe Speech Alerts:\n{alerts}"
+        summary = f"Safe Speech Alerts Summary:\n{alerts}"
+    elif len(alerts) == 1:
+        summary = '' # no need to summarize if only 1 alert
+    elif category_to_check:
+        summary = f'Speech is <b>safe</b> for category <b>{category_to_check}</b>. Pls. check other categories.'
+    else:
+        summary = 'Speech is safe✅'
     print(summary)
+
     yield summary
 
 def _process_prompt(invoke_func: Callable, prompt: str, category: str) -> tuple[str, str]:
