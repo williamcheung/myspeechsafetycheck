@@ -2,13 +2,17 @@ import gradio as gr
 
 from typing import Generator
 
-from post_moderator import moderate_post
+from post_moderator import moderate_post, prompt_files
+from utils import get_category_from_pronpt_file
 
 APP_NAME = 'My Speech Safety Check'
 ALL_CATEGORIES_INDICATOR = '[All]'
 
 # load categories
 categories = [ALL_CATEGORIES_INDICATOR]
+for prompt_file in prompt_files:
+    category = get_category_from_pronpt_file(prompt_file)
+    categories.append(category)
 
 bulletpt = '\u2022'
 
