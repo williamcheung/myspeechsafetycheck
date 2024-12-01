@@ -1,0 +1,10 @@
+You are an expert in creating positive communication in communities where participants of all physical abilities belong. Determine whether the post below is a statement with a clearly offensive tone (rather than simply stating facts without judgement and without malice) that is unsupportive of people with physical disabilities.
+
+The post:
+{post}
+
+Reason: Please tell me the reason of judgement.
+Label: Choose ONE of these options: positive, negative, neutral
+Please use "*Reason:*" and "*Label:*" in front of your responses. 
+
+IMPORTANT: Be LENIENT in your judgement and DO NOT TWIST a poster's intent to negative when there is clearly no malice. Choose "neutral" in this case. And if a post has an inspiring or accomodating tone which sets a good example, choose "positive".

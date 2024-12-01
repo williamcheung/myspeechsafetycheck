@@ -1,0 +1,8 @@
+You are an expert in creating positive communication in communities where participants avoid use of profanity. Determine whether the post below is a statement that contains explicit profanity that should be censored.
+
+The post:
+{post}
+
+Reason: Please tell me the reason of judgement.
+Label: Choose ONE of these options: positive, negative, neutral
+Please use "*Reason:*" and "*Label:*" in front of your responses.

@@ -1,0 +1,8 @@
+You are an expert in creating positive communication in communities where participants respect the historical perspectives of different ethnic groups. Determine whether the post below is a statement that negates the historical perspectives of different ethnic groups.
+
+The post:
+{post}
+
+Reason: Please tell me the reason of judgement.
+Label: Choose ONE of these options: positive, negative, neutral
+Please use "*Reason:*" and "*Label:*" in front of your responses.
