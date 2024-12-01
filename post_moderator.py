@@ -2,7 +2,7 @@ import os
 
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from langchain.prompts import PromptTemplate
-from typing import Callable
+from typing import Callable, Generator
 
 from llm import invoke_llm, invoke_llm2
 from utils import timeit
@@ -11,8 +11,7 @@ PROMPTS_DIR = 'prompts'
 PROMPT_FILE_EXT = '.PROMPT.txt'
 prompt_files = [file_name for file_name in os.listdir(PROMPTS_DIR) if file_name.endswith(PROMPT_FILE_EXT)]
 
-@timeit
-def moderate_post(post: str) -> str:
+def moderate_post(post: str) -> str|Generator[str, None, None]:
     print(f'Post: {post}')
     alerts: list[str] = []
 
@@ -41,7 +40,9 @@ def moderate_post(post: str) -> str:
                     reason_line = _find_line_with(lines, '*reason')
                     if reason_line:
                         reason = reason_line.replace(' post ', ' statement ', 1).strip()
-                        alerts.append(f'{category.upper()} ALERT {reason}')
+                        alert = f'{category.upper()} ALERT {reason}'
+                        yield alert
+                        alerts.append(alert)
 
             except:
                 # just skip this prompt (exception already logged)
@@ -52,7 +53,7 @@ def moderate_post(post: str) -> str:
         alerts = '\n'.join(alerts).strip()
         summary = f"Safe Speech Alerts:\n{alerts}"
     print(summary)
-    return summary
+    yield summary
 
 def _process_prompt(invoke_func: Callable, prompt: str, category: str) -> tuple[str, str]:
     try:
@@ -70,8 +71,13 @@ def _find_line_with(lines: list[str], match: str) -> str|None:
 
 if __name__ == '__main__':
     # test usage
-    response = moderate_post('i forbade my son going to basketball practice when i learned his coach is gay')
-#    response = moderate_post("people who can't finish high school shouldn't have kids because the kids will grow up poor")
-#    response = moderate_post("the blind woman stepped on her dog's own poo, it was so funny lol")
-#    response = moderate_post('she is the youngest member on our team but she still does her job like a pro')
-#    response = moderate_post('she is very old to still be doing that job')
+    @timeit
+    def call_moderate_post(post) -> str:
+        for alert in moderate_post(post):
+            print(f"{'*'*10}YIELD: {alert=}")
+
+    response = call_moderate_post('i forbade my son going to basketball practice when i learned his coach is gay')
+#    response = call_moderate_post("people who can't finish high school shouldn't have kids because the kids will grow up poor")
+#    response = call_moderate_post("the blind woman stepped on her dog's own poo, it was so funny lol")
+#    response = call_moderate_post('she is the youngest member on our team but she still does her job like a pro')
+#    response = call_moderate_post('she is very old to still be doing that job')
