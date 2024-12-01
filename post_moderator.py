@@ -7,7 +7,7 @@ from utils import PROMPTS_DIR, get_category_from_pronpt_file, get_prompt_files, 
 
 prompt_files = get_prompt_files()
 
-def moderate_post(post: str) -> str|Generator[str, None, None]:
+def moderate_post(post: str, category_to_check: str=None) -> str|Generator[str, None, None]:
     print(f'Post: {post}')
     alerts: list[str] = []
 
@@ -15,6 +15,8 @@ def moderate_post(post: str) -> str|Generator[str, None, None]:
         futures = []
         for i, prompt_file in enumerate(prompt_files):
             category = get_category_from_pronpt_file(prompt_file)
+            if category_to_check and category_to_check != category:
+                continue # skip this category
             with open(f'{PROMPTS_DIR}/{prompt_file}', 'r', encoding='utf-8') as f:
                 prompt = f.read()
             prompt = f"Context: {category}\n{prompt}\nThe negative label should be used ONLY in the *DIRECT* context of the above. Do NOT label as negative based on a different context than the above, even if related. If the post is not EXPLICITLY related to the context, do NOT use negative. You are not certified to make judgements on other contexts."

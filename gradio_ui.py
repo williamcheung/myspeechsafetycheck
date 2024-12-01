@@ -31,13 +31,14 @@ def submit_message(message: str, category: str, history: list[tuple[str, str]]) 
 
     print(f'[category]: {category} [post]: {message}')
 
+    category_to_check = None
     if category and category != ALL_CATEGORIES_INDICATOR:
-        pass #TODO
+        category_to_check = category
 
     history.append((message, None))
     yield history, None
 
-    for alert in moderate_post(message):
+    for alert in moderate_post(message, category_to_check):
         history.append((None, alert))
         yield history, None
 
