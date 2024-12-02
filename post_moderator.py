@@ -56,9 +56,10 @@ def moderate_post(post: str, category_to_check: str=None) -> str|Generator[str, 
         summary = f'Speech is <b>safe</b> for category <b>{category_to_check}</b>. Pls. check other categories.'
     else:
         summary = 'Speech is safe✅'
-    print(summary)
+    print(f'{summary=}')
 
-    yield summary
+    if summary:
+        yield summary
 
 def _process_prompt(invoke_func: Callable, prompt: str, category: str) -> tuple[str, str]:
     try:
